@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-  <title>Log in to Trigonometry</title>
+  <title>Log in</title>
 </svelte:head>
 <form
   class="modalish"

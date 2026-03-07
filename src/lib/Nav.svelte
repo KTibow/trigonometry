@@ -53,7 +53,6 @@
       padding-inline-end: 0.5rem;
     }
     position: relative;
-    pointer-events: auto;
 
     transition: var(--m3-easing);
 
@@ -63,6 +62,9 @@
       > svg {
         color: var(--m3c-secondary);
       }
+    }
+    &:not(.active) {
+      pointer-events: auto;
     }
     &.active {
       > svg {

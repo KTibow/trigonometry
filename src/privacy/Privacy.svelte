@@ -1,4 +1,5 @@
 <svelte:head>
+  <title>Privacy</title>
   <style>
     body {
       background-color: var(--m3c-surface-container-lowest);
