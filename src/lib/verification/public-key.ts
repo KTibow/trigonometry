@@ -1,0 +1,4 @@
+export default `-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEwgTNBn/8tYaPObdL3rW/1ip/84Iy
+0AAy4I2SUvIviWztfCG0YTgAC+o4QQMEIfIgiKLgiDvGsn3DCX0fkB0UZw==
+-----END PUBLIC KEY-----`;

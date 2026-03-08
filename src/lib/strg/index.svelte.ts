@@ -1,3 +1,5 @@
+import { SvelteMap } from 'svelte/reactivity';
+
 export type StorageChangeDetail = {
   key: string;
   value: string | undefined;
@@ -25,11 +27,11 @@ const notifyStorageChange = (detail: StorageChangeDetail) => {
   }
 };
 
-const storageCounters: Record<string, number> = $state({});
+const storageCounters = new SvelteMap<string, number>();
 let allCounter = $state(0);
 
 const trackStorageChange = (key: string, value: string | undefined, isSync = false) => {
-  storageCounters[key] = (storageCounters[key] || 0) + 1;
+  storageCounters.set(key, (storageCounters.get(key) ?? 0) + 1);
   allCounter++;
   notifyStorageChange({ key, value, isSync });
 };
@@ -78,7 +80,7 @@ export const storageClient = (
 
       key = prefix(key);
 
-      storageCounters[key];
+      storageCounters.get(key);
       const raw = localStorage[key];
       return raw && deserialize ? deserialize(raw) : raw;
     },
