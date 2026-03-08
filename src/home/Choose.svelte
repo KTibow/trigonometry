@@ -77,7 +77,8 @@
             path = f;
             e.currentTarget.closest<HTMLDivElement>('[popover]')!.hidePopover();
           }}
-          oncontextmenu={() => {
+          oncontextmenu={(e) => {
+            e.preventDefault();
             const contents = fs[f];
             delete fs[f];
             snackbar(`${name} deleted`, {
@@ -202,7 +203,7 @@
       justify-content: space-between;
       height: 2.5rem;
       gap: 2rem;
-      padding-inline: 0.5rem;
+      padding-inline: 0.625rem;
       border-radius: 0.5rem;
       &[inert] {
         background-color: var(--m3c-primary-container);
