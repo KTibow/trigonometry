@@ -238,7 +238,7 @@
     color: var(--m3c-on-surface-variant);
   }
   :global(::highlight(taskDone)) {
-    color: var(--m3c-primary);
+    color: --translucent(var(--m3c-on-primary), 0.2);
     background-color: var(--m3c-primary);
   }
   :global(::highlight(code)) {
