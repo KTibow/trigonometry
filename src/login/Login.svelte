@@ -3,17 +3,8 @@
   import Noise from './Noise.svelte';
 
   let stillness = new Spring(1, { damping: 1, precision: 0.001 });
-  let focused = $state(false);
   let email = $state('');
   let password = $state('');
-
-  $effect(() => {
-    if (focused) {
-      stillness.target = 0;
-    } else {
-      stillness.target = 1;
-    }
-  });
 </script>
 
 <svelte:head>
@@ -21,8 +12,7 @@
 </svelte:head>
 <form
   class="modalish"
-  onfocusin={() => (focused = true)}
-  onfocusout={() => (focused = false)}
+  onfocusin={() => (stillness.target = 0)}
   style:--stillness={stillness.current}
 >
   {#if stillness.current < 1}

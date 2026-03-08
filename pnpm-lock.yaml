@@ -26,6 +26,9 @@ importers:
       '@unocss/reset':
         specifier: ^66.6.3
         version: 66.6.3
+      base36-esm:
+        specifier: ^0.1.2
+        version: 0.1.2
       m3-svelte:
         specifier: ^7.1.0
         version: 7.1.0(svelte@5.53.6)(vite-plugin-functions-mixins@0.4.1(vite@8.0.0-beta.16(@types/node@24.11.0)))
@@ -224,6 +227,9 @@ packages:
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
     engines: {node: '>= 0.4'}
+
+  base36-esm@0.1.2:
+    resolution: {integrity: sha512-OH99C7CpEs3OUREVf9fLWnHOcGnVjj2v6a9gtNSXXNKyhueKT92dNM7luA/qwAk9gYQssnPoNUQpuROZm03AwA==}
 
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
@@ -632,6 +638,8 @@ snapshots:
   aria-query@5.3.1: {}
 
   axobject-query@4.1.0: {}
+
+  base36-esm@0.1.2: {}
 
   chokidar@4.0.3:
     dependencies:

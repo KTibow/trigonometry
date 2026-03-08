@@ -1,10 +1,18 @@
 <script lang="ts">
   import page from './page.svelte';
   import pages, { type NavEntry } from './pages';
+  import { getAuthOrUndefined } from './strg/common.svelte';
+  import NavLogin from './NavLogin.svelte';
+
+  let auth = $derived(getAuthOrUndefined());
 </script>
 
-<div class="nav">
-  <!-- clock if available, login if not -->
+<nav>
+  {#if auth}
+    TODO
+  {:else if page.page != 'login'}
+    <NavLogin />
+  {/if}
   <div>
     {#each pages.filter((p): p is NavEntry => p.length > 2) as [thisPage, _, title, description, path]}
       <a class:active={page.page == thisPage} href="/#{thisPage}">
@@ -18,27 +26,28 @@
       </a>
     {/each}
   </div>
-</div>
+</nav>
 
 <style>
-  .nav {
+  nav {
     display: flex;
-    gap: 0.5rem;
+    height: 2.5rem;
+
     position: fixed;
     left: 50%;
     bottom: 0.5rem;
     translate: -50% 0;
 
+    white-space: nowrap;
     pointer-events: none;
     z-index: 10;
     transition: var(--m3-easing);
   }
-  .nav:not(:hover) {
+  nav:not(:hover) {
     opacity: 0.8;
   }
-  .nav > * {
+  nav > * {
     display: flex;
-    height: 2.5rem;
     border-radius: var(--m3-shape-full);
     background-color: --translucent(var(--m3c-on-surface), 0.2);
   }
@@ -83,7 +92,6 @@
       left: 50%;
       translate: -50% 0;
 
-      white-space: nowrap;
       pointer-events: none;
 
       display: flex;
