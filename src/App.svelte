@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Component } from 'svelte';
+  import { Snackbar } from 'm3-svelte';
   import Progress from './Progress.svelte';
   import Nav from './lib/Nav.svelte';
   import page from './lib/page.svelte';
@@ -24,3 +25,4 @@
 <Page />
 <Progress />
 <Nav />
+<Snackbar />

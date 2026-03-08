@@ -1,16 +1,12 @@
 <script lang="ts">
   import { CircularProgressEstimate } from 'm3-svelte';
-  import { storageClient } from '../lib/strg/index.svelte';
   import ViewText from './ViewText.svelte';
+  import { fs } from './fs';
 
   let { path: _path }: { path: string } = $props();
 
   // svelte-ignore state_referenced_locally
   const path = _path; // this component must be {#key}d
-  const fs = storageClient(
-    (key) => `Obsidian/${key}`,
-    (key) => (key.startsWith('Obsidian/') ? key.slice('Obsidian/'.length) : undefined),
-  );
 
   // todo sync on defocus or destroy
 </script>

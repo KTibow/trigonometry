@@ -202,10 +202,14 @@
 <style>
   .editor {
     @apply --m3-focus-none;
-    width: min(calc(100% - 0.5rem), 50rem);
+    width: min(100%, 51rem);
     align-self: center;
     flex-grow: 1;
-    padding-block: 1.5rem;
+    padding-block: 2.5rem;
+    @media (width >= 100rem) {
+      padding-block: 3rem;
+    }
+    padding-inline: 0.5rem;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     font-feature-settings: 'calt' 0;

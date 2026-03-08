@@ -254,7 +254,7 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    z-index: 10;
+    z-index: 2;
     color: var(--m3c-on-primary-container-subtle);
   }
 

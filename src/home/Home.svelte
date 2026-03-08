@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
+  import { isHotkey } from '../lib/focus';
   import { now } from '../lib/now.svelte';
+  import Choose from './Choose.svelte';
   import View from './View.svelte';
 
   let todayPath = $derived.by(() => {
@@ -22,8 +24,15 @@
 <svelte:head>
   <title>Trigonometry</title>
 </svelte:head>
-TODO home {path}
+<svelte:window
+  onkeydown={(e) => {
+    if (isHotkey(e)) {
+      document.querySelector<HTMLDivElement>('.editor')?.focus();
+    }
+  }}
+/>
 
 {#key path}
   <View {path} />
 {/key}
+<Choose {todayPath} bind:path />

@@ -134,7 +134,7 @@
     background-color: color-mix(
       in oklch,
       var(--m3c-surface-container-highest) calc(var(--stillness) * 100%),
-      --translucent(var(--m3c-on-surface), 0.2)
+      var(--m3c-liquid)
     );
     &::placeholder {
       color: color-mix(

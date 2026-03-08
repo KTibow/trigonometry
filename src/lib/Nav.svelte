@@ -18,7 +18,7 @@
   {/if}
   <div>
     {#each pages.filter((p): p is NavEntry => p.length > 2) as [thisPage, _, title, description, path]}
-      <a class:active={page.page == thisPage} href="/#{thisPage}">
+      <a inert={page.page == thisPage} href="/#{thisPage}">
         <svg width="1rem" height="1rem" viewBox="0 0 24 24" fill="currentColor">
           <path d={path} />
         </svg>
@@ -43,16 +43,16 @@
 
     white-space: nowrap;
     pointer-events: none;
-    z-index: 10;
+    z-index: 2;
     transition: var(--m3-easing);
   }
-  nav:not(:hover) {
+  nav:not(:hover, :has(a:focus-visible)) {
     opacity: 0.8;
   }
   nav > * {
     display: flex;
     border-radius: var(--m3-shape-full);
-    background-color: --translucent(var(--m3c-on-surface), 0.2);
+    background-color: var(--m3c-liquid);
   }
   a {
     display: flex;
@@ -65,6 +65,7 @@
       padding-inline-end: 0.5rem;
     }
     position: relative;
+    pointer-events: auto;
 
     transition: var(--m3-easing);
 
@@ -75,10 +76,7 @@
         color: var(--m3c-secondary);
       }
     }
-    &:not(.active) {
-      pointer-events: auto;
-    }
-    &.active {
+    &[inert] {
       > svg {
         color: var(--m3c-primary);
       }
