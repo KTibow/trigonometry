@@ -19,7 +19,6 @@
       import('./Placeholder.svelte').then((module) => (Page = module.default));
     }
   });
-  
 </script>
 
 <Page />
