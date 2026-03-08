@@ -118,11 +118,7 @@
     189, 215, 137, 36, 32, 22, 5,
   ]);
 
-  type Props = {
-    liveliness?: number;
-  };
-
-  let { liveliness = 0.5 }: Props = $props();
+  let { liveliness }: { liveliness: number } = $props();
 
   function attachNoise(node: HTMLCanvasElement) {
     const ctx = node.getContext('2d');
@@ -139,8 +135,10 @@
     let z = Math.random() * 1000;
     let mouseX = 0;
     let mouseY = 0;
+    let keyN = 0;
     let lastMouseX = 0;
     let lastMouseY = 0;
+    let lastKeyN = 0;
     let lastRenderTime = performance.now();
     let frame = 0;
 
@@ -204,6 +202,9 @@
       lastMouseX = mouseX;
       lastMouseY = mouseY;
 
+      z += (keyN - lastKeyN) * 0.006;
+      lastKeyN = keyN;
+
       z += ((now - lastRenderTime) / 1000) * liveliness;
       lastRenderTime = now;
 
@@ -216,12 +217,19 @@
       mouseY = event.clientY;
     };
 
+    const handleKeyDown = () => {
+      for (let n = 0; n < 10; n++) {
+        setTimeout(() => (keyN += 10 - n), (n * 1000) / 60);
+      }
+    };
+
     const observer = new ResizeObserver(() => {
       resize();
     });
 
     observer.observe(node);
     window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('keydown', handleKeyDown);
     resize();
     frame = requestAnimationFrame(render);
 
@@ -229,6 +237,7 @@
       cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }
 </script>
