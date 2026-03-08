@@ -6,4 +6,4 @@
 ## Changes to existing files
 
 - Optimize for simple mental models, not cleverness.
-- If a choice trades readability for a smaller patch, prefer readability.
+- Don't make edits that trade readability for a smaller patch.

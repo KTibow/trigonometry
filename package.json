@@ -17,6 +17,8 @@
     "@tsconfig/svelte": "^5.0.6",
     "@tsndr/cloudflare-worker-jwt": "^3.2.1",
     "@types/node": "^24.10.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@unocss/reset": "^66.6.3",
     "base36-esm": "^0.1.2",
     "devalue": "^5.6.3",
