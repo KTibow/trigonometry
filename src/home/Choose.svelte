@@ -138,11 +138,10 @@
 
     display: flex;
     align-items: center;
-    height: 2.5rem;
+    height: var(--choose-height);
     padding-inline: 1rem;
     @media (width >= 100rem) {
       @apply --m3-title-medium;
-      height: 3rem;
       padding-inline: 1.5rem;
     }
     border-radius: var(--m3-shape-full);

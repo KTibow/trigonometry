@@ -205,10 +205,7 @@
     width: min(100%, 51rem);
     align-self: center;
     flex-grow: 1;
-    padding-block: 2.5rem;
-    @media (width >= 100rem) {
-      padding-block: 3rem;
-    }
+    padding-block: var(--choose-height);
     padding-inline: 0.5rem;
     white-space: pre-wrap;
     overflow-wrap: break-word;
@@ -238,7 +235,7 @@
     color: var(--m3c-on-surface-variant);
   }
   :global(::highlight(taskTodo)) {
-    color: var(--m3c-primary);
+    color: var(--m3c-on-surface-variant);
   }
   :global(::highlight(taskDone)) {
     color: var(--m3c-primary);

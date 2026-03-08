@@ -23,6 +23,14 @@
 
 <svelte:head>
   <title>Trigonometry</title>
+  <style>
+    :root {
+      --choose-height: 2.5rem;
+      @media (width >= 100rem) {
+        --choose-height: 3rem;
+      }
+    }
+  </style>
 </svelte:head>
 <svelte:window
   onkeydown={(e) => {
