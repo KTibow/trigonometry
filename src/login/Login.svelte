@@ -3,7 +3,7 @@
   import Noise from './Noise.svelte';
 
   let stillness = new Spring(1, { damping: 1, precision: 0.001 });
-  let email = $state('');
+  let id = $state('');
   let password = $state('');
 </script>
 
@@ -24,7 +24,7 @@
     pattern={'[01][0-9]{7}'}
     maxlength="7"
     placeholder="Student ID"
-    bind:value={email}
+    bind:value={id}
     required
   />
   <!-- <input type="password" placeholder="Password" bind:value={password} required /> -->

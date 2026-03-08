@@ -3,6 +3,7 @@
   import pages, { type NavEntry } from './pages';
   import { getAuthOrUndefined } from './strg/common.svelte';
   import NavLogin from './NavLogin.svelte';
+  import NavPrivacy from './NavPrivacy.svelte';
 
   let auth = $derived(getAuthOrUndefined());
 </script>
@@ -10,7 +11,9 @@
 <nav>
   {#if auth}
     TODO
-  {:else if page.page != 'login'}
+  {:else if page.page == 'login'}
+    <NavPrivacy />
+  {:else}
     <NavLogin />
   {/if}
   <div>

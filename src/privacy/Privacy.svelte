@@ -70,7 +70,7 @@
 
     width: min(calc(100% - 1rem), 41rem);
     align-self: center;
-    margin: auto;
+    margin-block: 3rem;
     padding: 1rem;
     border-radius: 1.5rem;
     background-color: var(--m3c-surface);
@@ -83,6 +83,9 @@
     }
     > ul {
       list-style: inside;
+    }
+    a {
+      color: var(--m3c-primary);
     }
   }
 </style>
