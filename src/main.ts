@@ -4,6 +4,7 @@ import './app.css';
 import App from './App.svelte';
 
 import('./login/unfinishedwork/main.svelte');
+import('./home/auto/autocharger');
 mount(App, {
   target: document.body!,
 });

@@ -11,11 +11,9 @@ const CHARGE_LANGUAGE =
 const CHARGE_UNFINISHED = `- [ ] ${CHARGE_LANGUAGE}`;
 const CHARGE_FINISHED = `- [x] ${CHARGE_LANGUAGE}`;
 
-export const trackCharge = () => {
-  if (!('getBattery' in navigator)) return () => {};
+const controller = new AbortController();
 
-  const controller = new AbortController();
-
+if ('getBattery' in navigator) {
   navigator.getBattery().then((battery) => {
     const handlePercent = async () => {
       const isCharged = battery.level > 0.3;
@@ -45,8 +43,7 @@ export const trackCharge = () => {
     handlePercent();
     battery.addEventListener('levelchange', handlePercent, { signal: controller.signal });
   });
-
-  return () => {
-    controller.abort();
-  };
-};
+}
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => controller.abort());
+}
