@@ -23,6 +23,7 @@ jobs:
         run: pnpm run build
         env:
           VERIFICATION_PRIVATE_KEY: ${{ secrets.VERIFICATION_PRIVATE_KEY }}
+          BIRTHDAYS: ${{ secrets.BIRTHDAYS }}
       - name: Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
