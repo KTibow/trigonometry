@@ -215,7 +215,7 @@
   .editor[data-placeholder]::before {
     position: absolute;
     content: attr(data-placeholder);
-    color: var(--m3c-on-surface-variant);
+    color: --translucent(var(--m3c-on-surface), 0.5);
   }
 
   :global(::highlight(heading)),
