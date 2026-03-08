@@ -3,8 +3,8 @@ import 'm3-svelte/etc/layer';
 import './app.css';
 import App from './App.svelte';
 
-import('./login/unfinishedwork/main.svelte');
-import('./home/auto/autocharger');
+import('./login/unfinishedwork/+main.svelte');
+import('./home/auto/+main');
 mount(App, {
   target: document.body!,
 });
