@@ -10,6 +10,7 @@
   background-color: var(--m3c-surface);
   color: var(--m3c-on-surface);
   interpolate-size: allow-keywords;
+  box-sizing: border-box;
   --m3-font: system-ui;
   --m3c-surface: light-dark(#fef3ff, #180429);
   --m3c-surface-container-lowest: light-dark(#fff, #000);

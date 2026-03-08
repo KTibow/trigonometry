@@ -1,23 +1,18 @@
 <script lang="ts">
   import { isHotkey } from '../lib/focus';
-  import { now } from '../lib/now.svelte';
   import Choose from './Choose.svelte';
+  import { getDailyNotePath } from './dailynote.svelte';
   import View from './View.svelte';
 
-  let todayPath = $derived.by(() => {
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `Present/${year}-${month}-${day}.md`;
-  });
-  let oldTodayPath = '';
+  let dailyNotePath = $derived(getDailyNotePath());
+  let oldDailyNotePath = '';
   let path = $state('');
 
   $effect(() => {
-    if (path == oldTodayPath) {
-      path = todayPath;
+    if (path == oldDailyNotePath) {
+      path = dailyNotePath;
     }
-    oldTodayPath = todayPath;
+    oldDailyNotePath = dailyNotePath;
   });
 </script>
 
@@ -43,4 +38,4 @@
 {#key path}
   <View {path} />
 {/key}
-<Choose {todayPath} bind:path />
+<Choose todayPath={dailyNotePath} bind:path />

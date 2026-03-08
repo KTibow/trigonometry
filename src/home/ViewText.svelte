@@ -238,8 +238,8 @@
     color: var(--m3c-on-surface-variant);
   }
   :global(::highlight(taskDone)) {
-    color: --translucent(var(--m3c-on-primary), 0.2);
-    background-color: var(--m3c-primary);
+    color: var(--m3c-primary);
+    background-color: var(--m3c-primary-container);
   }
   :global(::highlight(code)) {
     color: var(--m3c-on-tertiary-container-subtle);
