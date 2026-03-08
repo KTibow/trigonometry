@@ -93,6 +93,8 @@
       bind:value={password}
       onkeyup={() => {
         clearTimeout(loginTimeout);
+
+        if (password.length < 8) return;
         loginTimeout = setTimeout(() => login(), 400);
       }}
       required
