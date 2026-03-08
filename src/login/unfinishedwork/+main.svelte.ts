@@ -1,41 +1,42 @@
 import { verify } from '@tsndr/cloudflare-worker-jwt';
-import studentvue from 'fast-studentvue';
 import {
   deleteVerification,
+  cache,
   getAuthOrUndefined,
   getVerificationOrUndefined,
   setVerification,
   type Auth,
 } from '../../lib/strg/common.svelte';
+import { studentvueOrRelog } from '../../lib/studentvue';
 import verifyStudentvueRemote from './verify-studentvue.remote';
-import { untrack } from 'svelte';
+import { getAbortSignal, untrack } from 'svelte';
 import { trackProgress } from '../../lib/progress.svelte';
 import verificationPublicKey from '../../lib/verification/public-key';
+import { type StudentClassList, STUDENT_CLASS_LIST_CACHE_KEY } from './classlist';
 
 type VerificationPayload = {
   verification?: { method?: string };
 };
 
 const addVerification = async (auth: Auth) => {
-  const tokenData = await studentvue(
-    auth,
-    () => {
-      location.hash = 'login';
-      throw new Error('relogging');
-    },
-    'GenerateAuthToken',
-    {
-      Username: '',
-      TokenForClassWebSite: 'true',
-      DocumentID: '1',
-      AssignmentID: '1',
-    },
-  );
+  const tokenData = await studentvueOrRelog<{
+    AuthToken: {
+      '@_EncyToken': string;
+    };
+  }>('GenerateAuthToken', {
+    Username: '',
+    TokenForClassWebSite: 'true',
+    DocumentID: '1',
+    AssignmentID: '1',
+  });
   const token = tokenData.AuthToken['@_EncyToken'];
 
   const jwt = await verifyStudentvueRemote({ email: auth.email, token });
   setVerification(jwt);
 };
+
+const loadStudentClassList = (signal: AbortSignal) =>
+  studentvueOrRelog<StudentClassList>('StudentClassList', undefined, signal);
 
 const cleanup = $effect.root(() => {
   $effect(() => {
@@ -65,6 +66,23 @@ const cleanup = $effect.root(() => {
         }
       });
     }
+  });
+  $effect(() => {
+    const auth = getAuthOrUndefined();
+    const signal = getAbortSignal();
+
+    if (!auth) {
+      return;
+    }
+
+    untrack(() =>
+      trackProgress(
+        'Checking the schedule',
+        loadStudentClassList(signal).then((studentClassList) => {
+          cache[STUDENT_CLASS_LIST_CACHE_KEY] = studentClassList;
+        }),
+      ),
+    );
   });
 });
 if (import.meta.hot) {

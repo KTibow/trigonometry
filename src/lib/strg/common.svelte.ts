@@ -2,10 +2,20 @@ import { decode, encode } from 'base36-esm';
 import { storageClient } from './index.svelte';
 
 const client = storageClient();
+export const cache = storageClient(
+  (key) => `.cache/${key}.json`,
+  (key) =>
+    key.startsWith('.cache/') && key.endsWith('.json')
+      ? key.slice('.cache/'.length, -'.json'.length)
+      : undefined,
+  JSON.stringify,
+  JSON.parse,
+);
 const KEY_AUTH = '.local/login.encjson';
-const KEY_VERIFICATION = '.cache/verification.jwt';
+const KEY_VERIFICATION = '.local/verification.jwt';
 
 export type Auth = { email: string; password: string };
+
 export const setAuth = (auth: Auth) => {
   client[KEY_AUTH] = encode(JSON.stringify(auth));
 };
@@ -14,6 +24,13 @@ export const getAuthOrReauth = () => {
   if (!value) {
     location.hash = 'login';
     throw new Error('reauthing');
+  }
+  return JSON.parse(decode(value)) as Auth;
+};
+export const getAuthOrError = () => {
+  const value = client[KEY_AUTH];
+  if (!value) {
+    throw new Error('auth not present');
   }
   return JSON.parse(decode(value)) as Auth;
 };

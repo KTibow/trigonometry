@@ -23,7 +23,14 @@
     aborter.abort();
     aborter = new AbortController();
 
-    const result = await studentvue(
+    const result: {
+      ChildList: {
+        Child: {
+          ChildName: string;
+          photo?: string;
+        };
+      };
+    } = await studentvue(
       { email, password },
       () => {
         throw new Error('Bad auth');

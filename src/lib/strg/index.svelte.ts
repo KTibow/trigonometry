@@ -1,3 +1,4 @@
+import { untrack } from 'svelte';
 import { SvelteMap } from 'svelte/reactivity';
 
 export type StorageChangeDetail = {
@@ -80,6 +81,9 @@ export const storageClient = (
 
       key = prefix(key);
 
+      untrack(() => {
+        if (!storageCounters.has(key)) storageCounters.set(key, 0);
+      });
       storageCounters.get(key);
       const raw = localStorage[key];
       return raw && deserialize ? deserialize(raw) : raw;
