@@ -166,7 +166,7 @@ export const DAYS_OF_YEAR: Record<string, string> = {
   '06/01': 'National Pen Pal Day',
   '06/02': 'National Rocky Road Day',
   '06/03': 'National Egg Day',
-  '06/04': 'National Cheese Day',
+  '06/04': 'National Cheese Day (again)',
   '06/05': 'World Environment Day',
   '06/06': 'National Yo-Yo Day',
   '06/07': 'National Chocolate Ice Cream Day',
