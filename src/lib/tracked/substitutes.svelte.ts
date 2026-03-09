@@ -1,5 +1,13 @@
 import { districtApps } from 'school-districts';
-import type { RundownPart } from '../+main.svelte';
+import { getAuthOrUndefined } from '../strg/common.svelte';
+import { today } from '../today.svelte';
+import { getSchoolAndTeachers } from './classlist.svelte';
+import { dailyCache, makeTracked } from './_lib.svelte';
+
+type SubstitutesRequest = {
+  domain: string;
+  school: string;
+};
 
 const NSD_SUB_UUIDS: Record<string, string> = {
   'Bothell High School': 'D43268D2-8620-4D75-933A-181C5A6CAE3C',
@@ -31,8 +39,6 @@ const NSD_SUB_UUIDS: Record<string, string> = {
   'Westhill Elementary': 'D59B4DF0-C671-43D5-842A-26EB3884BE18',
 };
 
-const SUBSTITUTE_LINE = /^- .+ has a sub$/;
-
 const getSynergySchoolUUID = (domain: string, school: string) => {
   if (domain != 'apps.nsd.org') {
     throw new Error('Unknown domain');
@@ -46,51 +52,60 @@ const getSynergySchoolUUID = (domain: string, school: string) => {
   return id;
 };
 
-export const substitutesRundownPart = {
-  label: 'Updating substitutes',
-  matchesLine: (line) => SUBSTITUTE_LINE.test(line),
-  load: async ({ domain, today, schoolAndTeachers }) => {
-    if (!domain || !schoolAndTeachers) {
-      return [];
+const loadSubstitutes = async ({ domain, school }: SubstitutesRequest, signal: AbortSignal) => {
+  const apps = districtApps[domain];
+  if (!apps) {
+    throw new Error('Unknown domain');
+  }
+
+  const synergy = apps.find((app) => app.app == 'Synergy');
+  if (!synergy) {
+    throw new Error('District does not use Synergy');
+  }
+
+  const response = await fetch(`${synergy.base}/Service/SubLogin.asmx/LoadSubs`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      curSchoolOrgYearGU: getSynergySchoolUUID(domain, school),
+      dn: '',
+    }),
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Substitutes are ${response.status}ing`);
+  }
+
+  const { d }: { d: { Name: string }[] } = await response.json();
+
+  return d
+    .map((entry) => entry.Name)
+    .filter((name) => name != 'Select a substitute...')
+    .map((name) => name.split(', ').reverse().join(' '));
+};
+
+const [rundownSubstitutes, stop] = makeTracked<string[]>({
+  label: 'Listing subs',
+  run: () => {
+    const domain = getAuthOrUndefined()?.email.split('@')[1];
+    const school = getSchoolAndTeachers()?.school;
+    if (!domain || !school || [0, 6].includes(today.getDay())) {
+      return undefined;
     }
 
-    if ([0, 6].includes(today.getDay())) {
-      return [];
-    }
+    const request = { domain, school };
 
-    const apps = districtApps[domain];
-    if (!apps) {
-      throw new Error('Unknown domain');
-    }
-
-    const synergy = apps.find((app) => app.app == 'Synergy');
-    if (!synergy) {
-      throw new Error('District does not use Synergy');
-    }
-
-    const { school, teachers } = schoolAndTeachers;
-    const response = await fetch(`${synergy.base}/Service/SubLogin.asmx/LoadSubs`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        curSchoolOrgYearGU: getSynergySchoolUUID(domain, school),
-        dn: '',
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Substitutes are ${response.status}ing`);
-    }
-
-    const { d }: { d: { Name: string }[] } = await response.json();
-
-    return d
-      .map((entry) => entry.Name)
-      .filter((name) => name != 'Select a substitute...')
-      .map((name) => name.split(', ').reverse().join(' '))
-      .filter((teacher) => teachers.includes(teacher))
-      .map((teacher) => `${teacher} has a sub`);
+    return {
+      cache: dailyCache('substitutes', `${domain}/${school}`),
+      load: (signal) => loadSubstitutes(request, signal),
+    };
   },
-} satisfies RundownPart;
+  pollMs: 15 * 60 * 1000,
+});
+
+import.meta.hot?.dispose(stop);
+
+export { rundownSubstitutes };

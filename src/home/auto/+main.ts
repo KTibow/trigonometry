@@ -1,2 +1,6 @@
 import './autocharger';
-import './rundownkit/+main.svelte';
+import './rundownkit/alerts.svelte';
+import './rundownkit/birthdays.svelte';
+import './rundownkit/meals.svelte';
+import './rundownkit/substitutes.svelte';
+import './rundownkit/weather.svelte';

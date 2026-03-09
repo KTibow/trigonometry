@@ -1,6 +1,6 @@
 import { fn } from 'monoserve';
 import { string, object, pipe, email, uuid } from 'valibot';
-import { generateVerificationJWT } from './verify-remote';
+import { generateVerificationJWT } from './_verify-core';
 import { districtApps } from 'school-districts';
 
 const studentVueTokenSchema = object({
@@ -22,7 +22,6 @@ export default fn(studentVueTokenSchema, async ({ token, email }) => {
 
   const base = svApp.base;
 
-  // Fetch the StudentVue page with the token to validate it
   let html: string;
   try {
     const response = await fetch(`${base}/PXP2_Student.aspx?token=${token}`);
@@ -35,7 +34,6 @@ export default fn(studentVueTokenSchema, async ({ token, email }) => {
     throw new Response('StudentVue is inaccessible', { status: 400 });
   }
 
-  // Extract Student ID Number from HTML
   const studentIdMatch = html.match(
     /<span class="tbl_label">Student ID Number:<\/span><span class="value">([^<]+)<\/span>/,
   );
@@ -48,6 +46,5 @@ export default fn(studentVueTokenSchema, async ({ token, email }) => {
     throw new Response('Student ID not correct', { status: 400 });
   }
 
-  // Generate and return JWT
   return await generateVerificationJWT(email, 'studentvue');
 });

@@ -11,8 +11,16 @@ export const cache = storageClient(
   JSON.stringify,
   JSON.parse,
 );
+export const config = storageClient(
+  (key) => `.config/${key}.json`,
+  (key) =>
+    key.startsWith('.config/') && key.endsWith('.json')
+      ? key.slice('.config/'.length, -'.json'.length)
+      : undefined,
+  JSON.stringify,
+  JSON.parse,
+);
 const KEY_AUTH = '.local/login.encjson';
-const KEY_VERIFICATION = '.local/verification.jwt';
 
 export type Auth = { email: string; password: string };
 
@@ -39,18 +47,3 @@ export const getAuthOrUndefined = () => {
   if (!value) return undefined;
   return JSON.parse(decode(value)) as Auth;
 };
-
-export const setVerification = (jwt: string) => {
-  client[KEY_VERIFICATION] = jwt;
-};
-export const deleteVerification = () => {
-  delete client[KEY_VERIFICATION];
-};
-export const getVerificationOrError = () => {
-  const value = client[KEY_VERIFICATION];
-  if (!value) {
-    throw new Error('verification not present');
-  }
-  return value as string;
-};
-export const getVerificationOrUndefined = () => client[KEY_VERIFICATION] as string | undefined;
