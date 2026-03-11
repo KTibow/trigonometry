@@ -32,8 +32,11 @@ const storageCounters = new SvelteMap<string, number>();
 let allCounter = $state(0);
 
 const trackStorageChange = (key: string, value: string | undefined, isSync = false) => {
-  storageCounters.set(key, (storageCounters.get(key) ?? 0) + 1);
-  allCounter++;
+  storageCounters.set(
+    key,
+    untrack(() => (storageCounters.get(key) ?? 0) + 1),
+  );
+  allCounter = untrack(() => allCounter + 1);
   notifyStorageChange({ key, value, isSync });
 };
 

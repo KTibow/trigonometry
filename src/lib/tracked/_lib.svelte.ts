@@ -149,16 +149,25 @@ export const makeTracked = <Value>({
     });
 
     $effect(() => {
+      refreshVersion;
+
       const trackedRun = run();
       if (!trackedRun) {
-        current = undefined;
         fetcher.clear();
         return;
       }
 
-      current = trackedRun.cache.read();
-
       load(trackedRun);
+    });
+
+    $effect(() => {
+      const trackedRun = run();
+      if (!trackedRun) {
+        current = undefined;
+        return;
+      }
+
+      current = trackedRun.cache.read();
     });
 
     return () => {
