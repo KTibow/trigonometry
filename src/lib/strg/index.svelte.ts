@@ -47,11 +47,11 @@ addEventListener('storage', (event) => {
   trackStorageChange(event.key, event.newValue ?? undefined);
 });
 
-export const storageClient = (
+export const storageClient = <T = string>(
   prefix?: (key: string) => string,
   unprefix?: (key: string) => string | undefined,
-  serialize?: (data: any) => string,
-  deserialize?: (data: string) => any,
+  serialize?: (data: T) => string,
+  deserialize?: (data: string) => T,
   isSyncContext = false,
 ) => {
   if (prefix) {
@@ -78,7 +78,7 @@ export const storageClient = (
     return keys;
   };
 
-  return new Proxy({} as Record<string, any>, {
+  return new Proxy({} as Record<string, T>, {
     get(_, key) {
       if (typeof key == 'symbol') return undefined;
 

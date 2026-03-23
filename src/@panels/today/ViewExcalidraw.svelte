@@ -96,7 +96,6 @@
       animation: none;
     }
     > :global(div) {
-      margin-top: calc(var(--choose-height) + 1rem);
       flex-grow: 1;
     }
   }

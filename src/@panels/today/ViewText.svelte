@@ -192,7 +192,7 @@
 
 <div
   bind:this={editor}
-  data-placeholder={normalize(content).trim().length == 0 ? 'Write something, anything' : undefined}
+  data-placeholder={normalize(content).trim().length == 0 ? 'Note something, anything' : undefined}
   class="editor"
   contenteditable="plaintext-only"
   spellcheck="false"
@@ -205,7 +205,6 @@
     width: min(100%, 51rem);
     align-self: center;
     flex-grow: 1;
-    padding-block: var(--choose-height);
     padding-inline: 0.5rem;
     white-space: pre-wrap;
     overflow-wrap: break-word;

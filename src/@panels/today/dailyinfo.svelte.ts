@@ -1,3 +1,5 @@
+import { getTodayKey, getTodayShortKey } from '../../lib/today.svelte';
+
 export const DAYS_OF_YEAR: Record<string, string> = {
   // January
   '01/01': "New Year's Day",
@@ -391,4 +393,8 @@ export const DAYS_OF_YEAR: Record<string, string> = {
   '12/29': 'National Pepper Pot Day',
   '12/30': 'Bacon Day',
   '12/31': "New Year's Eve",
+};
+
+export const getKnownName = (path: string) => {
+  if (path == `Present/${getTodayKey()}.md`) return `Today • ${DAYS_OF_YEAR[getTodayShortKey()]}`;
 };

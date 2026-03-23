@@ -1,29 +1,30 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { progress, type ProgressItem } from './lib/progress.svelte';
-  import { attachNoise } from './lib/noise';
+  import { progress, type ProgressItem } from '../lib/progress.svelte';
+  import { attachNoise } from '../lib/noise';
 
-  const displayDelayMs = 50;
   const progressNoise = attachNoise({ chunkSize: 6, scaling: 0.05 });
 
+  const displayDelayMs = 50;
+
   let current = $derived(progress.first);
-  let currentDelayed = $state<ProgressItem | undefined>();
+  let visible = $state<ProgressItem | undefined>();
 
   $effect(() => {
     const item = current;
 
     if (!item) {
-      currentDelayed = undefined;
+      visible = undefined;
       return;
     }
 
-    if (currentDelayed) {
-      currentDelayed = item;
+    if (visible) {
+      visible = item;
       return;
     }
 
     const timeout = setTimeout(() => {
-      if (current?.id == item.id) currentDelayed = item;
+      if (current?.id == item.id) visible = item;
     }, displayDelayMs);
 
     return () => {
@@ -32,10 +33,10 @@
   });
 </script>
 
-{#if currentDelayed}
+{#if visible}
   <aside class="progress" transition:fade={{ duration: 150 }}>
     <canvas {@attach progressNoise}></canvas>
-    {currentDelayed.label}
+    {visible.label}
   </aside>
 {/if}
 

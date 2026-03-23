@@ -1,4 +1,4 @@
-import { storageClient } from '../lib/strg/index.svelte';
+import { storageClient } from '../../lib/strg/index.svelte';
 
 export const fs = storageClient(
   (key) => `Obsidian/${key}`,

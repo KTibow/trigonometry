@@ -1,5 +1,5 @@
 import studentvue from 'fast-studentvue';
-import { getAuthOrError, getAuthOrReauth } from './strg/common.svelte';
+import { getAuthOrError } from './strg/common.svelte';
 
 type StudentVueMethod = Parameters<typeof studentvue>[2];
 type StudentVueParams = Parameters<typeof studentvue>[3];
@@ -19,22 +19,6 @@ export const studentvueOrError = <T>(
     getAuthOrError(),
     () => {
       throw new Error('Bad auth');
-    },
-    methodName,
-    params,
-    signal ? (url, args) => fetch(url, { ...args, signal }) : undefined,
-  ) as Promise<T>;
-
-export const studentvueOrRelog = <T>(
-  methodName: StudentVueMethod,
-  params?: StudentVueParams,
-  signal?: StudentVueSignal,
-) =>
-  studentvue(
-    getAuthOrReauth(),
-    () => {
-      location.hash = 'login';
-      throw new Error('relogging');
     },
     methodName,
     params,

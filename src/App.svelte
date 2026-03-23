@@ -1,28 +1,33 @@
 <script lang="ts">
-  import type { Component } from 'svelte';
   import { Snackbar } from 'm3-svelte';
+  import Today from './@panels/today/Today.svelte';
   import Progress from './Progress.svelte';
-  import Nav from './lib/Nav.svelte';
-  import page from './lib/page.svelte';
-  import pages from './lib/pages';
-
-  let Page: Component = $state(pages[0][1]() as Component);
-  $effect(() => {
-    const pageData = pages.find((entry) => entry[0] == page.page);
-    if (pageData) {
-      const pagePromise = pageData[1]();
-      if (pagePromise instanceof Promise) {
-        pagePromise.then((p) => (Page = p));
-      } else {
-        Page = pagePromise;
-      }
-    } else {
-      import('./Placeholder.svelte').then((module) => (Page = module.default));
-    }
-  });
+  import Now from './@panels/now/Now.svelte';
+  import { getAuthOrUndefined } from './lib/strg/common.svelte';
 </script>
 
-<Page />
-<Progress />
-<Nav />
+<svelte:head>
+  <title>Trigonometry</title>
+</svelte:head>
+
+<Today />
+{#if getAuthOrUndefined()}
+  <Now />
+{/if}
+<div class="agent">Agent</div>
 <Snackbar />
+<Progress />
+
+<style>
+  .agent {
+    display: grid;
+    place-items: center;
+    background-color: var(--m3c-surface);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  .agent {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+</style>

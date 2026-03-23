@@ -7,7 +7,7 @@
 :root {
   @apply --m3-body-large;
   color-scheme: light dark;
-  background-color: var(--m3c-surface);
+  background-color: var(--m3c-surface-container);
   color: var(--m3c-on-surface);
   interpolate-size: allow-keywords;
   box-sizing: border-box;
@@ -18,7 +18,6 @@
   --m3c-surface-container: light-dark(#f5e1ff, #250d3a);
   --m3c-surface-container-high: light-dark(#f1daff, #2d1343);
   --m3c-surface-container-highest: light-dark(#eed3ff, #34184c);
-  --m3c-liquid: --translucent(var(--m3c-on-surface), 0.2);
   --m3c-on-surface: light-dark(#3a264b, #f3deff);
   --m3c-on-surface-variant: light-dark(#69537b, #bca1ce);
   --m3c-outline: light-dark(#856e98, #846c96);
@@ -55,9 +54,12 @@
   --m3c-on-error-container-subtle: light-dark(#960031, #ff8796);
 }
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 20rem 1fr;
+  grid-template-rows: 1fr auto;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  height: 100dvh;
 }
 button {
   cursor: pointer;
