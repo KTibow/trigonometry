@@ -15,7 +15,12 @@ const birthdaysPlugin = (): Plugin => {
     name: 'birthdays',
     configResolved(config) {
       const env = loadEnv(config.mode, config.envDir, '');
-      birthdays = JSON.parse(env.BIRTHDAYS) as BirthdaysBySchool;
+      const json = env.BIRTHDAYS;
+      if (!json) {
+        console.warn('Birthdays not loaded');
+        return;
+      }
+      birthdays = JSON.parse(env.BIRTHDAYS);
     },
     resolveId(id) {
       if (id == birthdaysModuleId) {
