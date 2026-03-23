@@ -4,37 +4,7 @@
   const USUALLY_PRESENT_MIN = 0.55;
   const IGNORED_SECTIONS = new Set(['fruit', 'milk', 'vegetables', 'misc.']);
   const IGNORED_ITEMS = new Set([
-    '1% white milk',
-    'apple',
-    'apple juice',
-    'applesauce cups, flavored',
-    'baby carrots',
-    'baked bbq beans',
-    'broccoli salad',
-    'canned sliced pears',
-    'coleslaw',
-    'cucumbers',
-    'dried cranberries',
-    'edamame',
-    'fresh orange',
-    'fruit punch',
-    'green peas',
-    'ketchup',
-    'mustard',
-    'non fat white milk',
-    'nsd burger sauce',
-    'peach cup',
-    'pickled onions',
-    'pico de gallo',
-    'ranch dressing',
     'refried beans',
-    'salad mix',
-    'salsa',
-    'shredded lettuce',
-    'sliced jalapenos',
-    'strawberries',
-    'sweet apple topping',
-    'tartar sauce',
     'tater tots',
   ]);
   const COLD_PATTERNS = [
@@ -45,6 +15,7 @@
     /\bparfait\b/i,
     /\byogurt\b/i,
     /\bprotein pack\b/i,
+    /\bfasting\b/i,
     /\bpinwheel\b/i,
   ];
 
@@ -53,7 +24,6 @@
   const isIgnored = (section: string, item: string) =>
     IGNORED_SECTIONS.has(section.toLowerCase()) ||
     IGNORED_ITEMS.has(item.toLowerCase()) ||
-    /\bfasting\b.*\bpack\b/i.test(item) ||
     /\bsmoothie\b/i.test(item) ||
     /\biced latte\b/i.test(item);
 
