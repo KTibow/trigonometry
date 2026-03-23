@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/knip/schema.json",
-  "entry": ["src/home/ViewExcalidraw.svelte"],
+  "entry": ["src/@panels/today/ViewExcalidraw.svelte"],
   "ignoreDependencies": ["@unocss/reset"],
   "ignoreUnresolved": ["^\\$env/static/private$", "^monoserve-env$"],
   "ignoreIssues": {
