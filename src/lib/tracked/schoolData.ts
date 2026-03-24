@@ -2,11 +2,14 @@ import { get } from 'svelte/store';
 import { getAuthOrUndefined } from '../strg/common.svelte';
 import { trackCached } from './_lib';
 
-export type Listing = Record<string, string[]>;
-export type SchoolMenus = Record<string, Record<string, Listing>>;
+export type Meal = {
+  category: string;
+  days: string[];
+};
+export type SchoolMeals = Record<string, Record<string, Meal>>;
 export type SchoolData = {
   weather: Record<string, string>;
-  menus: SchoolMenus;
+  meals: SchoolMeals;
   subs: string[];
 };
 
