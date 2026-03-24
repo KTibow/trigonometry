@@ -27,12 +27,12 @@
   const categorize = (menu: string, category: string, item: string) => {
     if (isIgnored(category, item)) return null;
     if (!isLunch(menu)) return 'Entrees';
-    return category === 'Grab and Go' || COLD_PATTERNS.some((p) => p.test(item)) ? 'Cold' : 'Warm';
+    return category == 'Grab and Go' || COLD_PATTERNS.some((p) => p.test(item)) ? 'Cold' : 'Warm';
   };
 
   const formatLabel = (menu: string, section: string) => {
     const base = /\bbreakfast\b/i.test(menu) ? 'Breakfast' : isLunch(menu) ? 'Lunch' : menu;
-    return section === 'Entrees'
+    return section == 'Entrees'
       ? `${base} today`
       : `${section} ${base} today`.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
   };
