@@ -49,6 +49,7 @@
     align-items: center;
     padding-inline: 0.5rem;
     border-radius: inherit;
+    text-align: start;
     color: var(--m3c-on-surface-variant);
   }
 </style>

@@ -154,6 +154,7 @@
     height: 2.5rem;
     align-items: center;
     justify-content: space-between;
+    text-align: start;
     padding-inline: 0.5rem;
     border-radius: 0.5rem;
     color: var(--m3c-primary);
