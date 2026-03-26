@@ -10,12 +10,13 @@
 
 {#if currentDay}
   {@const alertsToday = currentDay == getTodayKey() ? ($districtData.data?.alerts ?? []) : []}
-  {@const meals = $schoolData.data?.meals ?? {}}
+  {@const meals = $schoolData.data?.meals || {}}
+  {@const mealsWithImages = $schoolData.data?.mealsWithImages || []}
   {@const weatherToday = $schoolData.data?.weather?.[currentDay]}
   {#each alertsToday as alert}
     <div class="card alert">{alert}</div>
   {/each}
-  <RundownMeals day={currentDay} {meals} />
+  <RundownMeals day={currentDay} {meals} {mealsWithImages} />
   {#if weatherToday}
     <div class="card">{weatherToday}</div>
   {/if}

@@ -5,11 +5,13 @@ import { trackCached } from './_lib';
 export type Meal = {
   category: string;
   days: string[];
+  servedWith: Record<string, string>;
 };
 export type SchoolMeals = Record<string, Record<string, Meal>>;
 export type SchoolData = {
   weather: Record<string, string>;
   meals: SchoolMeals;
+  mealsWithImages: string[];
   subs: string[];
 };
 
