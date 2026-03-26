@@ -41,6 +41,7 @@
     flex-direction: column;
     background-color: var(--m3c-surface);
     border-radius: 0.5rem;
+    overflow: auto;
   }
   .choose {
     @apply --m3-label-large;
