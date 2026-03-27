@@ -1,4 +1,5 @@
 <script lang="ts">
+  import RundownMeal from './RundownMeal.svelte';
   import type { SchoolMeals } from '../../lib/tracked/schoolData';
 
   const USUALLY_PRESENT_MIN = 0.55;
@@ -68,18 +69,6 @@
   });
 </script>
 
-{#snippet meal(m: string, last: boolean)}
-  <!-- todo render servedWith -->
-  <a
-    href={mealsWithImages.includes(m)
-      ? `https://raw.githubusercontent.com/KTibow/school-districts-data/refs/heads/main/data/%2Bimages/${encodeURIComponent(
-          m,
-        )}.png`
-      : undefined}
-    target="_blank">{m}</a
-  >{#if !last}{', '}{/if}
-{/snippet}
-
 {#each groups as [key, { unusual, missing }]}
   {@const label = formatLabel(key.split('\0')[0], key.split('\0')[1])}
   {#if unusual.length || missing.length}
@@ -88,7 +77,11 @@
       {#if unusual.length}
         <p>
           {#each unusual as m, i}
-            {@render meal(m, i == unusual.length - 1)}
+            <RundownMeal
+              meal={m}
+              last={i == unusual.length - 1}
+              hasImage={mealsWithImages.includes(m)}
+            />
           {/each}
         </p>
       {/if}
@@ -96,7 +89,11 @@
         <p>
           {'Missing usual: '}
           {#each missing as m, i}
-            {@render meal(m, i == missing.length - 1)}
+            <RundownMeal
+              meal={m}
+              last={i == missing.length - 1}
+              hasImage={mealsWithImages.includes(m)}
+            />
           {/each}
         </p>
       {/if}
@@ -113,9 +110,6 @@
     border-radius: 0.75rem;
     background-color: var(--m3c-surface-container-highest);
     color: var(--m3c-on-surface-variant);
-  }
-  [href] {
-    color: var(--m3c-secondary);
   }
   .menu {
     @apply --m3-label-medium;
