@@ -6,17 +6,26 @@
 
   let { path }: { path: string } = $props();
   let currentDay = $derived(path.match(/^Present\/([0-9]{4}-[0-9]{2}-[0-9]{2})\.md$/)?.[1]);
+  let isWeekend = $derived.by(() => {
+    if (!currentDay) return false;
+
+    const date = new Date(currentDay + 'T00:00:00Z');
+    const day = date.getUTCDay();
+    return day == 0 || day == 6;
+  });
 </script>
 
 {#if currentDay}
   {@const alertsToday = currentDay == getTodayKey() ? ($districtData.data?.alerts ?? []) : []}
-  {@const meals = $schoolData.data?.meals || {}}
-  {@const mealsWithImages = $schoolData.data?.mealsWithImages || []}
   {@const weatherToday = $schoolData.data?.weather?.[currentDay]}
   {#each alertsToday as alert}
     <div class="card alert">{alert}</div>
   {/each}
-  <RundownMeals day={currentDay} {meals} {mealsWithImages} />
+  {#if !isWeekend}
+    {@const meals = $schoolData.data?.meals || {}}
+    {@const mealsWithImages = $schoolData.data?.mealsWithImages || []}
+    <RundownMeals day={currentDay} {meals} {mealsWithImages} />
+  {/if}
   {#if weatherToday}
     <div class="card">{weatherToday}</div>
   {/if}
