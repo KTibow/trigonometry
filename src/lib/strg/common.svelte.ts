@@ -1,7 +1,5 @@
-import { decode, encode } from 'base36-esm';
 import { storageClient } from './index.svelte';
 
-const client = storageClient();
 export const cache = storageClient(
   (key) => `.cache/${key}.json`,
   (key) =>
@@ -20,22 +18,37 @@ export const config = storageClient(
   JSON.stringify,
   JSON.parse,
 );
-const KEY_AUTH = '.local/login.encjson';
 
 export type Auth = { email: string; password: string };
 
-export const setAuth = (auth: Auth) => {
-  client[KEY_AUTH] = encode(JSON.stringify(auth));
+let internalAuth: Auth | undefined = $state();
+export const _loadAuth = (email: string, password: string) => {
+  internalAuth = { email, password };
 };
-export const getAuthOrError = () => {
-  const value = client[KEY_AUTH];
-  if (!value) {
-    throw new Error('auth not present');
+export const setAuth = (
+  email: string,
+  password: string,
+  name: string,
+  iconURL: string | undefined,
+) => {
+  try {
+    navigator.credentials.store(
+      // @ts-expect-error
+      new PasswordCredential({
+        id: email,
+        password,
+        name,
+        iconURL,
+      }),
+    );
+    internalAuth = { email, password };
+  } catch (e) {
+    console.warn('while setting credential', e);
   }
-  return JSON.parse(decode(value)) as Auth;
 };
-export const getAuthOrUndefined = () => {
-  const value = client[KEY_AUTH];
-  if (!value) return undefined;
-  return JSON.parse(decode(value)) as Auth;
+export const getAuthOrUndefined = () => internalAuth;
+export const getAuthOrError = () => {
+  const auth = internalAuth;
+  if (!auth) throw new Error('No auth');
+  return auth;
 };

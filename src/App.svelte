@@ -13,6 +13,8 @@
 <Today />
 {#if getAuthOrUndefined()}
   <Now />
+{:else}
+  TODO
 {/if}
 <div class="agent">Agent</div>
 <Snackbar />
